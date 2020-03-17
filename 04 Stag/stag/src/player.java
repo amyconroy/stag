@@ -1,7 +1,8 @@
+// extending entity or character? likely character.
 public class player extends character {
     private Object currPlayer;
     private location playerLocation;
-
+/*
     private player(){
         super();
         new player();}
@@ -19,5 +20,5 @@ public class player extends character {
     // curr artifacts : array of objects to keep track of them - innventory
     // also new character ?
     // >> ?? player = character();
-
+*/
 }

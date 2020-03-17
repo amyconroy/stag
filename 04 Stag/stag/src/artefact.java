@@ -1,7 +1,7 @@
-public class artefact extends location {
-    private boolean isCollected = false;
+public class artefact {
+    public boolean isCollected = false;
 
-    private artefact(){ new artefact(); }
+   /* private artefact(){ new artefact(); }
     private boolean checkIfCollected(){
         return isCollected;
     }
@@ -11,5 +11,5 @@ public class artefact extends location {
     // have put the artefact back down
     private void isPutBack(){
         isCollected = false;
-    }
+    } */
 }

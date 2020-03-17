@@ -1,11 +1,13 @@
-public class character extends location {
-    private entity characterLocation;
+// public class extending Entity? unique to the characters
 
+public class character {
+   // public entity characterLocation;
+/*
     private character(){
-        super();
+        //super();
         new character();}
+*/
+   /* public character() {
 
-    public character() {
-
-    }
+    } */
 }

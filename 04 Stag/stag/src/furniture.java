@@ -1,8 +1,9 @@
-public class furniture extends location {
+public class furniture {
     // just needs to know the location
     // because it extends entity - do i need to set up these functions in entity ...... yes probs
-    private location furnitureLocation = getCurrLocation();
+   /* private location furnitureLocation = getCurrLocation();
 
-    private furniture(){ new furniture(); }
+    public furniture(){
+        new furniture(); } */
 
 }
