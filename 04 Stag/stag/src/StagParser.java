@@ -2,6 +2,8 @@ import com.alexmerz.graphviz.Parser;
 import com.alexmerz.graphviz.objects.Edge;
 import com.alexmerz.graphviz.objects.Graph;
 import com.alexmerz.graphviz.objects.Node;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -11,6 +13,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.*;
+import java.lang.reflect.Type;
 
 
 public class StagParser {
@@ -30,27 +33,29 @@ public class StagParser {
         return actionsArray;
     }
 
+//then once you have hashmap you can get("triggers")
 
     public static void parseActionsArray(JSONArray actionsArray){
+        Gson gson = new Gson();
+
+        // this will do it for each individual JSON object
         for (Object actionsObj : actionsArray) {
-            JSONObject JSONAction = (JSONObject) actionsObj;
-                new ArrayList actionsTriggers = new ArrayList<String> JSONAction.get("triggers").toString();
-                System.out.println("test" + actionsTriggers);
-                /*
-                ArrayList<String> actionsTriggers = createActionsArray(JSONAction, "triggers");
-                ArrayList<String> actionsSubjects = createActionsArray(JSONAction, "subjects");
-                ArrayList<String> actionsConsumed = createActionsArray(JSONAction, "consumed");
-                ArrayList<String> actionsProduced = createActionsArray(JSONAction, "produced");
-                ArrayList<String> actionsNarration = createActionsArray(JSONAction, "narration");  */
+           // JSONObject JSONAction = (JSONObject) actionsObj;
+            System.out.println("test : " + actionsObj);
+            HashMap<String, Object> actionsTriggers = createActionsMap();
+            JSONAction.get("triggers").toString();
+            System.out.println("test" + actionsTriggers);
         }
+    }
+
+    public static HashMap<String, Object> createActionsMap(JSONObject JSONAction){
+        HashMap<String, Object> actionsObj = new gson.fromJson(JSONAction, new TypeToken<HashMap<String,Object>>(){}.getType());
     }
 
 /*
     public ArrayList<String> createActionsArray(JSONObject actionObject, String key){
         ArrayList actionsArray = new ArrayList<String>();
-
         actionsArray = actionObject.key;
-
         return actionsArray;
     } */
 
