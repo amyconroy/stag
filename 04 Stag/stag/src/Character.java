@@ -1,5 +1,3 @@
-
-
 public class Character extends Location {
     public String characterName;
     public String description;

@@ -22,7 +22,14 @@ public class Location extends createWorld {
         currArtefact.setDescription(description);
         localArtefacts.put(artefactName, currArtefact); }
 
-    public HashMap <String, Artefact> getArtefacts(){ return localArtefacts; }
+    public HashMap <String, Artefact> getAllArtefacts(){ return localArtefacts; }
+
+    public Artefact getArtefact(String artefactName){
+        Artefact requestedArtefact;
+        requestedArtefact = localArtefacts.get(artefactName);
+        return requestedArtefact; }
+
+    public void removeArtefact(String artefactName){ localArtefacts.remove(artefactName); }
 
     public void addFurniture(String furnitureType, String description){
         Furniture currFurniture = new Furniture();
@@ -30,7 +37,7 @@ public class Location extends createWorld {
         currFurniture.setDescription(description);
         localFurniture.put(furnitureType, currFurniture); }
 
-    public HashMap<String, Furniture> getFurniture(){ return localFurniture; }
+    public HashMap<String, Furniture> getAllFurniture(){ return localFurniture; }
 
     public void addCharacter(String characterName, String description){
         Character currCharacter = new Character();
@@ -38,5 +45,5 @@ public class Location extends createWorld {
         currCharacter.setDescription(description);
         localCharacters.put(characterName, currCharacter);
     }
-    public HashMap<String, Character> getCharacters(){ return localCharacters; }
+    public HashMap<String, Character> getAllCharacters(){ return localCharacters; }
 }
