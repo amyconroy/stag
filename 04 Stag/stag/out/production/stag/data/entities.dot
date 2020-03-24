@@ -11,7 +11,7 @@ digraph layout {
                 node [shape = "diamond"];
                 potion [description = "Magic potion"];
             }
-            subgraph furniture {
+            subgraph Furniture {
                 node [shape = "hexagon"];
                 door [description = "Wooden door"];
             }

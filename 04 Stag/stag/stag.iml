@@ -11,15 +11,5 @@
     <orderEntry type="library" name="libs" level="project" />
     <orderEntry type="library" name="dot-parser" level="project" />
     <orderEntry type="library" name="json-parser" level="project" />
-    <orderEntry type="library" name="gson-2.8.6" level="project" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../../../../gson-2.8.6.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
   </component>
 </module>

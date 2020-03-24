@@ -16,12 +16,9 @@ class StagServer {
 
     public StagServer(String entityFilename, String actionFilename, int portNumber) {
         try {
-            // is this the right way to do it?
             new StagParser();
-            JSONArray actionContents = StagParser.readActionsFile(actionFilename);
-            ArrayList<Graph> graphs = StagParser.getGraphs(entityFilename);
-            ArrayList<Graph> subGraphs = StagParser.getSubGraphs(graphs, entityFilename);
-            // call the parser (?) class sending across the JSONArray
+            StagParser.readActionsFile(actionFilename);
+            StagParser.readEntitiesFile(entityFilename);
             ServerSocket ss = new ServerSocket(portNumber);
             System.out.println("Server Listening");
             while (true) acceptNextConnection(ss);
@@ -49,8 +46,4 @@ class StagServer {
         String line = in.readLine();
         out.write("You said... " + line + "\n");
     }
-
-    /* HashMap<Graph, String> entitiesMap = new HashMap<>();
-             entitiesMap.put(g, g.getId().getId());
-             Set<Graph> key = entitiesMap.keySet(); */
 }

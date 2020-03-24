@@ -1,7 +1,7 @@
 // extending entity or character? likely character.
-public class player extends character {
+public class player extends Character {
     private Object currPlayer;
-    private location playerLocation;
+    private Location playerLocation;
 /*
     private player(){
         super();

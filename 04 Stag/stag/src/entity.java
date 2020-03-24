@@ -1,4 +1,4 @@
-// superclass for all entities (players/characters/etc)
+
 
 public abstract class entity {
     // currLocation
