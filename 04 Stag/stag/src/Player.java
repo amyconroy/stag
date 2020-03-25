@@ -2,13 +2,17 @@
 import java.util.*;
 
 // should it still extend character? undecided
+// set the curr location each time that the player moves
+
 public class Player extends Character {
     public Player currPlayer;
     public Location playerLocation;
     public ArrayList<Artefact> playerInventory;
 
-    public Player(){
+    public Player(String playerName){
+        super(); // calls the parent class
         currPlayer = null;
+        super.setName(playerName); // is this right?
         playerLocation = null;
         playerInventory = new ArrayList<>();
     }

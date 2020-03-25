@@ -1,7 +1,5 @@
 import com.alexmerz.graphviz.Parser;
 import com.alexmerz.graphviz.objects.Graph;
-import com.alexmerz.graphviz.objects.Node;
-import com.alexmerz.graphviz.objects.Edge;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -54,21 +52,22 @@ public class StagParser {
         return actionsMap;
     }
 
-    public void readEntitiesFile(String entityFilename) {
+    public StagWorld readEntitiesFile(String entityFilename) {
         ArrayList<Graph> graphs = null;
         ArrayList<Graph> entityGraphs = null;
+        StagWorld newWorld = new StagWorld();
         try {
             Parser parser = new Parser();
             FileReader reader = new FileReader(entityFilename);
             parser.parse(reader);
             graphs = parser.getGraphs();
             entityGraphs = graphs.get(0).getSubgraphs();
-            new createWorld();
-            createWorld.getLocationGraphs(entityGraphs);
+            newWorld.getLocationGraphs(entityGraphs);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (com.alexmerz.graphviz.ParseException e) {
             e.printStackTrace();
         }
+        return newWorld;
     }
 }

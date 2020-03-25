@@ -1,4 +1,4 @@
-public class Furniture extends Location{
+public class Furniture {
     public String description;
     public String furnitureName;
 

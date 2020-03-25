@@ -1,4 +1,4 @@
-public class Character extends Location {
+public class Character {
     public String characterName;
     public String description;
 

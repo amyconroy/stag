@@ -1,4 +1,4 @@
-public class Artefact extends Location {
+public class Artefact {
     public boolean isCollected;
     public String description;
     public String artefactName;

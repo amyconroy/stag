@@ -3,8 +3,9 @@ import java.util.*;
 // keep track of paths to other locations
 // have a this location?
 
-public class Location extends createWorld {
+public class Location {
     public Location location;
+    public ArrayList<String> localPaths;
     public HashMap<String, Artefact> localArtefacts;
     public HashMap<String, Furniture> localFurniture;
     public HashMap<String, Character> localCharacters;
@@ -12,9 +13,15 @@ public class Location extends createWorld {
     public Location(){
         localCharacters = new HashMap<>();
         localFurniture = new HashMap<>();
-        localArtefacts = new HashMap<>(); }
+        localArtefacts = new HashMap<>();
+        localPaths = new ArrayList<>(); }
 
     public Location getCurrLocation(){ return this.location; }
+
+    // will keep track of names of everywhere you can get from this location
+    public void addPath(String path){ localPaths.add(path); }
+
+    public ArrayList<String> getPaths() { return localPaths; }
 
     public void addArtefact(String artefactName, String description){
         Artefact currArtefact = new Artefact();

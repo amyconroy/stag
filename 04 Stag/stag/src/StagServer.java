@@ -1,12 +1,5 @@
 import java.io.*;
 import java.net.*;
-import java.util.*;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import com.alexmerz.graphviz.*;
-import com.alexmerz.graphviz.objects.*;
 
 class StagServer {
     public static void main(String args[]) {
@@ -16,24 +9,26 @@ class StagServer {
 
     public StagServer(String entityFilename, String actionFilename, int portNumber) {
         try {
-            new StagParser();
-            StagParser.readActionsFile(actionFilename);
-            StagParser.readEntitiesFile(entityFilename);
+            StagWorld stagWorld = new StagWorld();
+            StagParser stagParser = new StagParser();
+            stagParser.readActionsFile(actionFilename);
+            stagWorld = stagParser.readEntitiesFile(entityFilename);
             ServerSocket ss = new ServerSocket(portNumber);
             System.out.println("Server Listening");
-            while (true) acceptNextConnection(ss);
+            StagController stagController = new StagController(stagWorld);
+            while (true) acceptNextConnection(ss, stagController);
         } catch (IOException ioe) {
             System.err.println(ioe);
         }
     }
 
-    private void acceptNextConnection(ServerSocket ss) {
+    private void acceptNextConnection(ServerSocket ss, StagController stagController) {
         try {
             // Next line will block until a connection is received
             Socket socket = ss.accept();
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            processNextCommand(in, out);
+            processNextCommand(in, out, stagController);
             out.close();
             in.close();
             socket.close();
@@ -42,8 +37,12 @@ class StagServer {
         }
     }
 
-    private void processNextCommand(BufferedReader in, BufferedWriter out) throws IOException {
+    private void processNextCommand(BufferedReader in, BufferedWriter out, StagController stagController) throws IOException {
         String line = in.readLine();
+        String playerName = line.substring(0, line.indexOf(':'));
+        stagController.playGame(playerName);
         out.write("You said... " + line + "\n");
     }
 }
+
+// next to do = take everything after the name and handle the actions and commands

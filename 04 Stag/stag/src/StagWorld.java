@@ -13,27 +13,28 @@ import java.io.*;
 // have a controller that is abstract that can call getAllLocations and get the hash
 // map with all of the locations
 
-public class createWorld extends StagParser {
+public class StagWorld {
     // one HashMap that contains all locations
     private HashMap <String, Location> locationMap;
 
-    public createWorld(){
+    public StagWorld(){
         locationMap = new HashMap<>();
     }
 
+    // i feel like this function is irrelevant now ..?
     public HashMap<String, Location> getAllWorldLocations(){ return locationMap; }
 
-    public void getLocationGraphs(ArrayList<Graph> entityGraphs) {
+    public HashMap<String, Location> getLocationGraphs(ArrayList<Graph> entityGraphs) {
         for (Graph map : entityGraphs) {
             ArrayList<Graph> worldLocations = map.getSubgraphs();
             createLocations(worldLocations);
             // sort the paths after
             ArrayList<Edge> paths = map.getEdges();
             for (Edge e : paths) {
-                // set paths in game controller
                 System.out.printf("Path from %s to %s\n", e.getSource().getNode().getId().getId(), e.getTarget().getNode().getId().getId());
             }
         }
+        return locationMap;
         // need another method for creating the various graphs / subgraphs (multiple diff methods?)
     }
 
@@ -59,10 +60,13 @@ public class createWorld extends StagParser {
             for(Node locationEntity : entities) {
                 if (newEntity.equals("artefacts")) {
                     currLocation.addArtefact(locationEntity.getId().getId(), locationEntity.getAttribute("description"));
+                    System.out.println("test add artefacts : " + locationEntity.getId().getId() + " description : " + locationEntity.getAttribute("description"));
                 } else if (newEntity.equals("characters")) {
                     currLocation.addCharacter(locationEntity.getId().getId(), locationEntity.getAttribute("description"));
+                    System.out.println("test add characters : " + locationEntity.getId().getId() + " description : " + locationEntity.getAttribute("description"));
                 } else if (newEntity.equals("furniture")) {
                     currLocation.addFurniture(locationEntity.getId().getId(), locationEntity.getAttribute("description"));
+                    System.out.println("test add furniture : " + locationEntity.getId().getId() + " description : " + locationEntity.getAttribute("description"));
                 }
             }
         }
