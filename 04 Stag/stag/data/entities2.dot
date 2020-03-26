@@ -16,7 +16,7 @@ digraph layout {
                 axe [description = "A razor sharp axe"];
                 coin [description = "A silver coin"];
             }
-            subgraph Furniture {
+            subgraph Entities.Furniture {
                 node [shape = "hexagon"];
                 trapdoor [description = "A locked wooden trapdoor in the floor"];
             }
@@ -29,7 +29,7 @@ digraph layout {
                 node [shape = "diamond"];
                 key [description = "A rusty old key"];
             }
-            subgraph Furniture {
+            subgraph Entities.Furniture {
                 node [shape = "hexagon"];
                 tree [description = "A tall pine tree"];
             }
@@ -51,7 +51,7 @@ digraph layout {
                 node [shape = "diamond"];
                 horn [description = "An old brass horn"];
             }
-            subgraph Furniture {
+            subgraph Entities.Furniture {
                 node [shape = "hexagon"];
                 river [description = "A fast flowing river"];
             }
@@ -60,7 +60,7 @@ digraph layout {
         subgraph cluster005 {
             node [shape = "none"];
             clearing [description = "A clearing in the woods"]
-            subgraph Furniture {
+            subgraph Entities.Furniture {
                 node [shape = "hexagon"];
                 ground [description = "It looks like the soil has been recently disturbed"];
             }
@@ -79,7 +79,7 @@ digraph layout {
                 shovel [description = "A sturdy shovel"];
                 gold [description = "A big pot of gold"];
             }
-            subgraph Furniture {
+            subgraph Entities.Furniture {
                 node [shape = "hexagon"];
                 hole [description = "A deep hole in the ground"];
             }

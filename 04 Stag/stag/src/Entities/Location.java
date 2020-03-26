@@ -1,10 +1,13 @@
+package Entities;
+
 import java.util.*;
 // one hash map with location - graph of paths - then separate hash maps with all the entities
 // keep track of paths to other locations
-// have a this location?
+// todo have a this location?
 
 public class Location {
     public Location location;
+    public String locDescription;
     public ArrayList<String> localPaths;
     public HashMap<String, Artefact> localArtefacts;
     public HashMap<String, Furniture> localFurniture;
@@ -22,6 +25,10 @@ public class Location {
     public void addPath(String path){ localPaths.add(path); }
 
     public ArrayList<String> getPaths() { return localPaths; }
+
+    public void setLocDescription(String description){ locDescription = description; }
+
+    public String getLocDescription(){ return locDescription; }
 
     public void addArtefact(String artefactName, String description){
         Artefact currArtefact = new Artefact();

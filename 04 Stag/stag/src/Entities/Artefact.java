@@ -1,3 +1,5 @@
+package Entities;
+
 public class Artefact {
     public boolean isCollected;
     public String description;
@@ -19,7 +21,7 @@ public class Artefact {
 
     public boolean checkIfCollected(){ return isCollected; }
 
-    private void collectArtefact(){ isCollected = true; }
+    public void collectArtefact(){ isCollected = true; }
 
     private void isPutBack(){ isCollected = false; }
 }

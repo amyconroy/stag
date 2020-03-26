@@ -1,3 +1,5 @@
+package Entities;
+
 public class Furniture {
     public String description;
     public String furnitureName;

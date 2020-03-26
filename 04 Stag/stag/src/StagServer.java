@@ -1,5 +1,9 @@
+import Actions.Action;
+
 import java.io.*;
 import java.net.*;
+import java.util.HashMap;
+import java.util.List;
 
 class StagServer {
     public static void main(String args[]) {
@@ -9,13 +13,14 @@ class StagServer {
 
     public StagServer(String entityFilename, String actionFilename, int portNumber) {
         try {
-            StagWorld stagWorld = new StagWorld();
             StagParser stagParser = new StagParser();
-            stagParser.readActionsFile(actionFilename);
-            stagWorld = stagParser.readEntitiesFile(entityFilename);
+            // todo check for empty file
+            HashMap<String, List<Action>> actionsMap = stagParser.readActionsFile(actionFilename);
+            StagWorld stagWorld = stagParser.readEntitiesFile(entityFilename);
             ServerSocket ss = new ServerSocket(portNumber);
             System.out.println("Server Listening");
-            StagController stagController = new StagController(stagWorld);
+            StagController stagController = new StagController(stagWorld, actionsMap);
+            // passing in the control because the control contains the whole world
             while (true) acceptNextConnection(ss, stagController);
         } catch (IOException ioe) {
             System.err.println(ioe);
@@ -40,9 +45,9 @@ class StagServer {
     private void processNextCommand(BufferedReader in, BufferedWriter out, StagController stagController) throws IOException {
         String line = in.readLine();
         String playerName = line.substring(0, line.indexOf(':'));
-        stagController.playGame(playerName);
-        out.write("You said... " + line + "\n");
+        String [] userInput = line.split(" ");
+        if(!stagController.checkValidInput(userInput))
+            out.write("Please ensure you input a valid command." + line + "\n");
+        else stagController.playGame(playerName, userInput, out);
     }
 }
-
-// next to do = take everything after the name and handle the actions and commands

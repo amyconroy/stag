@@ -1,3 +1,5 @@
+package Entities;
+
 public class Character {
     public String characterName;
     public String description;
