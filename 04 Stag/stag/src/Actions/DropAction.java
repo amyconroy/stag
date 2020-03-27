@@ -1,11 +1,11 @@
 package Actions;
+import Entities.Artefact;
+import Entities.Location;
+import Entities.Player;
+import java.util.HashMap;
 
-import Entities.*;
-import java.util.*;
-
-public class DropAction {
+public class DropAction implements Gameplay {
     private Player player;
-    private Artefact artefactDrop;
     private String artefactName;
     private String[] userInput;
     private HashMap<String, Artefact> userInv;
@@ -21,23 +21,23 @@ public class DropAction {
     public void executeAction(){
         userInv = player.getPlayerInventory();
         if(checkInventory()){
-            artefactDrop = userInv.get(artefactName);
+            Artefact artefactDrop = userInv.get(artefactName);
             artefactDrop.collectArtefact();
             String description = artefactDrop.getDescription();
+            // remove the artefact from player and add to location
             player.removeFromInventory(artefactName, artefactDrop);
             location.addArtefact(artefactName, description);
         }
     }
 
+    // ensure artefact present in inv to drop
     private boolean checkInventory(){
-        for(String input : userInput){
-            for(String key : userInv.keySet()){
-                if(key.equals(input)){
+        for(String input : userInput)
+            for (String key : userInv.keySet())
+                if (key.equals(input)) {
                     artefactName = input;
                     return true;
                 }
-            }
-        }
         System.out.println("Specified artefact is not present in your inventory.");
         return false;
     }

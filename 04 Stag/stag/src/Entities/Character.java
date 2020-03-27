@@ -1,8 +1,8 @@
 package Entities;
 
-public class Character {
-    public String characterName;
-    public String description;
+public class Character extends Location implements Entity {
+    private String characterName;
+    private String description;
 
     public Character(){
         characterName = null;

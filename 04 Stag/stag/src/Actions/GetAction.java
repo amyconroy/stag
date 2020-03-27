@@ -1,12 +1,12 @@
 package Actions;
-import Entities.*;
-import Entities.Character;
-
-import java.util.*;
+import Entities.Artefact;
+import Entities.Location;
+import Entities.Player;
+import java.util.HashMap;
 
 
 // picks up a specified artefact from current location and put it into players inv
-public class GetAction {
+public class GetAction implements Gameplay {
     private Artefact requestedArtefact;
     private String artefactName;
     private Location location;
@@ -24,10 +24,13 @@ public class GetAction {
     public void executeAction(){
         artefacts = location.getAllArtefacts();
         if(findArtefact()){
-            requestedArtefact.collectArtefact();
             putInInventory();
             location.removeArtefact(artefactName);
         }
+    }
+
+    private void putInInventory(){
+        player.addToInventory(requestedArtefact);
     }
 
     private boolean findArtefact(){
@@ -40,9 +43,5 @@ public class GetAction {
         }
         System.out.println("Requested artefact is not present in current location.");
         return false;
-    }
-
-    private void putInInventory(){
-        player.addToInventory(requestedArtefact);
     }
 }

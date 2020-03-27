@@ -1,48 +1,49 @@
-import Actions.*;
-import Entities.*;
+import Actions.Action;
+import Actions.CommandAction;
+import Actions.DropAction;
+import Actions.GetAction;
+import Actions.GotoAction;
+import Actions.HealthAction;
+import Actions.InventoryAction;
+import Actions.LookAction;
+import Entities.Location;
+import Entities.Player;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.lang.Object;
+import java.lang.String;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.*;
-import java.lang.*;
+import java.util.List;
 
 public class StagController {
     private HashMap<String, Location> locationMap;
     private HashMap<String, Player> stagPlayers;
     private HashMap<String, List<Action>> actionsMap;
-    private Action action;
     private Player currPlayer;
     private Location currLocation;
     private String[] userInput;
     private String actionWord;
     private ArrayList<Object> standardCommands;
     private BufferedWriter out;
+    private Location start;
+    private StagWorld world;
     private boolean actionGameplay; // if false, standard gameplay
-    // todo - better way to handle this?
 
-    public StagController(StagWorld newWorld, HashMap<String, List<Action>> actionsMap){
-        StagWorld currWorld;
+    public StagController(StagWorld world, HashMap<String, List<Action>> actionsMap){
+        this.world = world;
         locationMap = new HashMap<>();
         stagPlayers = new HashMap<>();
         this.actionsMap = actionsMap;
-        currWorld = newWorld;
         fillStandardCommands();
-        locationMap = currWorld.getAllWorldLocations();
-    }
-
-    public Player getCurrPlayer(){
-        return this.currPlayer;
-    }
-
-    public void writeToClient(String string) throws IOException {
-        out.write(string + "\n");
+        locationMap = world.getAllWorldLocations();
     }
 
     public void checkPlayer(String playerName) {
         if(!(stagPlayers.containsKey(playerName))){
-            Player newPlayer = new Player(playerName);
-            Location firstLoc = locationMap.get("start");
-            newPlayer.setPlayerLocation(firstLoc);
+            Player newPlayer = new Player(playerName, locationMap);
+            setStart();
+            newPlayer.setPlayerLocation(start);
             stagPlayers.put(playerName, newPlayer);
         }
         currPlayer = stagPlayers.get(playerName);
@@ -57,6 +58,8 @@ public class StagController {
         endTurn();
     }
 
+    private void setStart(){ start = world.getStart(); }
+
     private void fillStandardCommands(){
         standardCommands = new ArrayList<>();
         standardCommands.add("inventory");
@@ -65,6 +68,7 @@ public class StagController {
         standardCommands.add("drop");
         standardCommands.add("goto");
         standardCommands.add("look");
+        standardCommands.add("health");
     }
 
     private void setUserInput(String[] userInput){
@@ -72,48 +76,61 @@ public class StagController {
     }
 
     private void preformAction() throws IOException {
-        if(!(actionGameplay)){
-            preformStandardAction();
+        checkPlayerAlive();
+        if(!(actionGameplay)) preformStandardAction();
+        else{
+            CommandAction action = new CommandAction(actionWord);
+            Action currAction = action.findAction(actionsMap, userInput);
+            if(currAction != null) action.setAction(currAction, userInput, currPlayer, locationMap, out);
+            else out.write("Invalid action.\n");
         }
     }
 
     private void preformStandardAction() throws IOException {
-        if(actionWord.equals("inventory") || actionWord.equals("inv")){
-            InventoryAction action = new InventoryAction(currPlayer);
-            action.executeAction(out);
-        }
-        if(actionWord.equals("get")){
-            GetAction action = new GetAction(currPlayer, userInput);
-            action.executeAction();
-        }
-        if(actionWord.equals("drop")){
-            DropAction action = new DropAction(currPlayer, userInput);
-            action.executeAction();
-        }
-        if(actionWord.equals("goto")){
-            GotoAction action = new GotoAction(currPlayer, userInput, locationMap);
-            action.executeAction(out);
-        }
-        if(actionWord.equals("look")){
-            LookAction action = new LookAction(currPlayer, out);
-            action.executeAction();
+        switch (actionWord) {
+            case "inventory":
+            case "inv":
+                InventoryAction invAction = new InventoryAction(currPlayer);
+                invAction.setAction(out);
+                break;
+            case "get":
+                GetAction getAction = new GetAction(currPlayer, userInput);
+                getAction.executeAction();
+                break;
+            case "drop":
+                DropAction dropAction = new DropAction(currPlayer, userInput);
+                dropAction.executeAction();
+                break;
+            case "goto":
+                GotoAction goAction = new GotoAction(currPlayer, userInput, locationMap);
+                goAction.setAction(out);
+                break;
+            case "look":
+                LookAction lookAction = new LookAction(currPlayer, out);
+                lookAction.executeAction();
+                break;
+            case "health":
+                HealthAction healthAction = new HealthAction(currPlayer, out);
+                healthAction.executeAction();
+                checkPlayerAlive();
+                break;
         }
     }
 
-    // checks for at least one matching valid command
+    private void checkPlayerAlive() throws IOException {
+        if(currPlayer.checkIfDead()) {
+            currPlayer.setPlayerLocation(start);
+            out.write("You have died. Restarting player.");
+        }
+    }
+
+    // checks for at least one matching valid key word (trigger or standard) from input
     public boolean checkValidInput(String[] userInput){
         for(String input : userInput) {
-            if(actionsMap.containsKey(input)){
+            if (actionsMap.containsKey(input) || checkStandardCommand(input)) {
                 actionWord = input;
                 actionGameplay = true;
-                return true;
-            }
-
-            else if(checkStandardCommand(input)){
-                actionWord = input;
-                actionGameplay = false;
-                return true;
-            }
+                return true; }
         }
         return false;
     }

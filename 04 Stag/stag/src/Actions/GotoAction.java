@@ -1,17 +1,17 @@
 package Actions;
+import Entities.Location;
+import Entities.Player;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-import Entities.*;
-import java.util.*;
-import java.io.*;
-
-// moves from one location to another
-public class GotoAction {
+public class GotoAction implements Gameplay {
     private Player player;
     private Location location;
     private String[] userInput;
     private String newLocationName;
     private HashMap<String, Location> locationMap;
-    private BufferedWriter out;
 
     public GotoAction(Player player, String[] userInput, HashMap<String, Location> locationMap){
         this.player = player;
@@ -20,28 +20,28 @@ public class GotoAction {
         location = player.getPlayerLocation();
     }
 
-    public void executeAction(BufferedWriter out) throws IOException {
+    public void setAction(BufferedWriter out) throws IOException {
         if(findLocation()){
-            this.out = out;
-            Location newLocation = locationMap.get(newLocationName);
-            player.setPlayerLocation(newLocation);
+            executeAction();
         }
-        else{
-            out.write("No path to specified location.");
-        }
+        else out.write("No path to specified location.");
     }
 
+    public void executeAction(){
+        Location newLocation = locationMap.get(newLocationName);
+        player.setPlayerLocation(newLocation);
+    }
+
+    // ensure that there is a path to the specified location
     private boolean findLocation() {
         ArrayList<String> paths = location.getPaths();
 
-        for(String input : userInput){
-            for(String path : paths){
-                if(input.equals(path)){
+        for(String input : userInput)
+            for (String path : paths)
+                if (input.equals(path)) {
                     newLocationName = path;
                     return true;
                 }
-            }
-        }
         return false;
     }
 }

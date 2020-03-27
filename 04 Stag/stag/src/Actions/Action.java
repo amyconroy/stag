@@ -1,8 +1,7 @@
 package Actions;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.*;
+import java.util.HashSet;
 
+// Action object for each JSONObject
 public class Action {
     private HashSet<String> subjects;
     private HashSet<String> consumed;

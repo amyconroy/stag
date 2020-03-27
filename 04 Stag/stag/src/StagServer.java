@@ -1,12 +1,16 @@
 import Actions.Action;
-
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.HashMap;
 import java.util.List;
 
 class StagServer {
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         if (args.length != 2) System.out.println("Usage: java StagServer <entity-file> <action-file>");
         else new StagServer(args[0], args[1], 8888);
     }
@@ -14,9 +18,8 @@ class StagServer {
     public StagServer(String entityFilename, String actionFilename, int portNumber) {
         try {
             StagParser stagParser = new StagParser();
-            // todo check for empty file
             HashMap<String, List<Action>> actionsMap = stagParser.readActionsFile(actionFilename);
-            StagWorld stagWorld = stagParser.readEntitiesFile(entityFilename);
+            StagWorld stagWorld = stagParser.createWorld(entityFilename);
             ServerSocket ss = new ServerSocket(portNumber);
             System.out.println("Server Listening");
             StagController stagController = new StagController(stagWorld, actionsMap);
@@ -24,6 +27,8 @@ class StagServer {
             while (true) acceptNextConnection(ss, stagController);
         } catch (IOException ioe) {
             System.err.println(ioe);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

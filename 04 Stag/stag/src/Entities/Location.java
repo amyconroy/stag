@@ -1,17 +1,14 @@
 package Entities;
-
-import java.util.*;
-// one hash map with location - graph of paths - then separate hash maps with all the entities
-// keep track of paths to other locations
-// todo have a this location?
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Location {
-    public Location location;
-    public String locDescription;
-    public ArrayList<String> localPaths;
-    public HashMap<String, Artefact> localArtefacts;
-    public HashMap<String, Furniture> localFurniture;
-    public HashMap<String, Character> localCharacters;
+    private String description;
+    private ArrayList<String> localPaths;
+    private HashMap<String, Artefact> localArtefacts;
+    private HashMap<String, Furniture> localFurniture;
+    private HashMap<String, Character> localCharacters;
+    private boolean startFlag = false;
 
     public Location(){
         localCharacters = new HashMap<>();
@@ -19,16 +16,19 @@ public class Location {
         localArtefacts = new HashMap<>();
         localPaths = new ArrayList<>(); }
 
-    public Location getCurrLocation(){ return this.location; }
-
-    // will keep track of names of everywhere you can get from this location
     public void addPath(String path){ localPaths.add(path); }
 
     public ArrayList<String> getPaths() { return localPaths; }
 
-    public void setLocDescription(String description){ locDescription = description; }
+    public void setDescription(String description){ this.description = description; }
 
-    public String getLocDescription(){ return locDescription; }
+    public String getDescription(){ return description; }
+
+    public void setAsStart(){ startFlag = true; }
+
+    public boolean checkIfStart(){ return startFlag; }
+
+    public HashMap <String, Artefact> getAllArtefacts(){ return localArtefacts; }
 
     public void addArtefact(String artefactName, String description){
         Artefact currArtefact = new Artefact();
@@ -36,7 +36,9 @@ public class Location {
         currArtefact.setDescription(description);
         localArtefacts.put(artefactName, currArtefact); }
 
-    public HashMap <String, Artefact> getAllArtefacts(){ return localArtefacts; }
+    public boolean checkForArtefact(String request){
+        for(String name : localArtefacts.keySet()) if (name.equals(request)) return true;
+        return false; }
 
     public Artefact getArtefact(String artefactName){
         Artefact requestedArtefact;
@@ -51,13 +53,35 @@ public class Location {
         currFurniture.setDescription(description);
         localFurniture.put(furnitureType, currFurniture); }
 
+    public boolean checkForFurniture(String request){
+        for(String name : localFurniture.keySet()) if (name.equals(request)) return true;
+        return false; }
+
+    public Furniture getFurniture(String furnitureName){
+        Furniture requestedFurniture;
+        requestedFurniture = localFurniture.get(furnitureName);
+        return requestedFurniture; }
+
     public HashMap<String, Furniture> getAllFurniture(){ return localFurniture; }
+
+    public void removeFurniture(String furnitureName){ localCharacters.remove(furnitureName); }
 
     public void addCharacter(String characterName, String description){
         Character currCharacter = new Character();
         currCharacter.setName(characterName);
         currCharacter.setDescription(description);
-        localCharacters.put(characterName, currCharacter);
-    }
+        localCharacters.put(characterName, currCharacter); }
+
+    public void removeCharacter(String characterName){ localCharacters.remove(characterName); }
+
     public HashMap<String, Character> getAllCharacters(){ return localCharacters; }
+
+    public boolean checkForCharacter(String request){
+        for(String name : localCharacters.keySet()) if (name.equals(request)) return true;
+        return false; }
+
+    public Character getCharacter(String characterName){
+        Character requestedCharacter;
+        requestedCharacter = localCharacters.get(characterName);
+        return requestedCharacter; }
 }

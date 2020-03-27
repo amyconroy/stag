@@ -1,19 +1,19 @@
 package Entities;
 
-public class Furniture {
-    public String description;
-    public String furnitureName;
+public class Furniture extends Location implements Entity {
+    private String description;
+    private String name;
 
     public Furniture(){
         description = null;
-        furnitureName = null;
+        name = null;
     }
 
     public void setDescription(String descriptionToSet){ description = descriptionToSet; }
 
     public String getDescription(){ return description; }
 
-    public void setName(String name){ furnitureName = name; }
+    public void setName(String name){ this.name = name; }
 
-    public String getName(){ return furnitureName; }
+    public String getName(){ return name; }
 }

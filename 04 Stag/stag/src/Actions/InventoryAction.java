@@ -1,10 +1,12 @@
 package Actions;
-import Entities.*;
-import java.util.*;
-import java.io.*;
+import Entities.Artefact;
+import Entities.Player;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.util.HashMap;
 
 // lists all of the artefacts currently being carried by the player
-public class InventoryAction {
+public class InventoryAction implements Gameplay{
     private Player player;
     private BufferedWriter out;
     private HashMap<String, Artefact> userInv;
@@ -13,8 +15,12 @@ public class InventoryAction {
         this.player = player;
     }
 
-    public void executeAction(BufferedWriter out) throws IOException {
+    public void setAction(BufferedWriter out) throws IOException {
         this.out = out;
+        executeAction();
+    }
+
+    public void executeAction() throws IOException {
         getInventory();
         printInventory();
     }
@@ -23,13 +29,7 @@ public class InventoryAction {
         userInv = player.getPlayerInventory();
     }
 
-    public void printInventory() throws IOException {
-        if(!(userInv.isEmpty())){
-            out.write("YOUR INVENTORY CONTAINS: " + userInv.keySet() + "\n");
-        }
-        else{
-            out.write("YOUR INVENTORY is empty.\n");
-        }
-    }
-
+    private void printInventory() throws IOException {
+        if(!(userInv.isEmpty())) out.write("YOUR INVENTORY CONTAINS: " + userInv.keySet() + "\n");
+        else out.write("YOUR INVENTORY is empty.\n"); }
 }
