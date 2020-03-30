@@ -33,7 +33,6 @@ public class StagParser {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(actionsMap.keySet());
         return actionsMap;
     }
 
@@ -153,8 +152,6 @@ public class StagParser {
                 currLocation = stagWorld.startLocation(currLocation);
                 startFlag = false;
             }
-            System.out.println("test : " + nodeName.getId().getId());
-            System.out.println("currloc : " + currLocation);
             // add name of location, and location object to hashmap
             locationMap.put(nodeName.getId().getId(), currLocation);
         }

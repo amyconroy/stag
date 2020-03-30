@@ -22,7 +22,6 @@ public class DropAction implements Gameplay {
         userInv = player.getPlayerInventory();
         if(checkInventory()){
             Artefact artefactDrop = userInv.get(artefactName);
-            artefactDrop.collectArtefact();
             String description = artefactDrop.getDescription();
             // remove the artefact from player and add to location
             player.removeFromInventory(artefactName, artefactDrop);
